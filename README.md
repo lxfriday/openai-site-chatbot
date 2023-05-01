@@ -1,6 +1,8 @@
-# GPT-4 & LangChain - Create a ChatGPT Chatbot for Your Files
+# openai-site-chatbot
 
-This is a chatbot of OPENAI official site.
+This is a chatbot of OPENAI official site. You can see the txts in the docs folder.
+
+GPT-4 & LangChain - Create a ChatGPT Chatbot for Your Files
 
 Use the new GPT-4 api to build a chatGPT chatbot for multiple Large files.
 
