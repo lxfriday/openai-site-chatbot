@@ -1,6 +1,8 @@
-# GPT-4 & LangChain - Create a ChatGPT Chatbot for Your PDF Files
+# GPT-4 & LangChain - Create a ChatGPT Chatbot for Your Files
 
-Use the new GPT-4 api to build a chatGPT chatbot for multiple Large PDF files.
+This is a chatbot of OPENAI official site.
+
+Use the new GPT-4 api to build a chatGPT chatbot for multiple Large files.
 
 Tech stack used includes LangChain, Chroma, Typescript, Openai, and Next.js. LangChain is a framework that makes it easier to build scalable AI/LLM apps and chatbots. Chroma is a vectorstore for storing embeddings and your PDF in text to later retrieve similar docs.
 
