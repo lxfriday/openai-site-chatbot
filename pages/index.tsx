@@ -41,6 +41,11 @@ export default function Home() {
     textAreaRef.current?.focus();
   }, []);
 
+  function scrollToBottom() {
+    //scroll to bottom
+    messageListRef.current?.scrollTo(0, messageListRef.current.scrollHeight);
+  }
+
   //handle form submission
   async function handleSubmit(e: any) {
     e.preventDefault();
@@ -99,11 +104,7 @@ export default function Home() {
         }));
       }
       console.log('messageState', messageState);
-
       setLoading(false);
-
-      //scroll to bottom
-      messageListRef.current?.scrollTo(0, messageListRef.current.scrollHeight);
     } catch (error) {
       setLoading(false);
       setError('An error occurred while fetching the data. Please try again.');
@@ -120,15 +121,19 @@ export default function Home() {
     }
   };
 
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
   return (
     <>
       <Layout>
         <div className="mx-auto flex flex-col gap-4">
           <h1 className="text-2xl font-bold leading-[1.1] tracking-tighter text-center">
-            Chat With Your Legal Docs
+            Chat With Open AI site docs
           </h1>
-          <main className={styles.main}>
-            <div className={styles.cloud}>
+          <main className="">
+            <div className="w-[80vw] h-[80vh] border">
               <div ref={messageListRef} className={styles.messagelist}>
                 {messages.map((message, index) => {
                   let icon;
@@ -139,8 +144,8 @@ export default function Home() {
                         key={index}
                         src="/bot-image.png"
                         alt="AI"
-                        width="40"
-                        height="40"
+                        width="30"
+                        height="30"
                         className={styles.boticon}
                         priority
                       />
@@ -174,7 +179,7 @@ export default function Home() {
                           </ReactMarkdown>
                         </div>
                       </div>
-                      {message.sourceDocs && (
+                      {/* {message.sourceDocs && (
                         <div
                           className="p-5"
                           key={`sourceDocsAccordion-${index}`}
@@ -203,13 +208,13 @@ export default function Home() {
                             ))}
                           </Accordion>
                         </div>
-                      )}
+                      )} */}
                     </>
                   );
                 })}
               </div>
             </div>
-            <div className={styles.center}>
+            <div className="mt-5">
               <div className={styles.cloudform}>
                 <form onSubmit={handleSubmit}>
                   <textarea
@@ -260,11 +265,6 @@ export default function Home() {
             )}
           </main>
         </div>
-        <footer className="m-auto p-4">
-          <a href="https://twitter.com/mayowaoshin">
-            Powered by LangChainAI and Chroma. Demo built by Mayo (Twitter: @mayowaoshin).
-          </a>
-        </footer>
       </Layout>
     </>
   );
