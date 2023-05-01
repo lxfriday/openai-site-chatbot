@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState, useEffect, useMemo } from 'react';
 import Layout from '@/components/layout';
 import styles from '@/styles/Home.module.css';
 import { Message } from '@/types/chat';
@@ -6,6 +6,7 @@ import Image from 'next/image';
 import ReactMarkdown from 'react-markdown';
 import LoadingDots from '@/components/ui/LoadingDots';
 import { Document } from 'langchain/document';
+import { fetchEventSource } from '@microsoft/fetch-event-source';
 import {
   Accordion,
   AccordionContent,
@@ -32,7 +33,7 @@ export default function Home() {
     history: [],
   });
 
-  const { messages, history } = messageState;
+  const { messages, history, pending } = messageState;
 
   const messageListRef = useRef<HTMLDivElement>(null);
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
@@ -44,6 +45,19 @@ export default function Home() {
   function scrollToBottom() {
     //scroll to bottom
     messageListRef.current?.scrollTo(0, messageListRef.current.scrollHeight);
+  }
+
+  function handleClearHistory() {
+    setMessageState((state) => ({
+      ...state,
+      history: [],
+      messages: [
+        {
+          message: 'Hi, what would you like to learn about this legal case?',
+          type: 'apiMessage',
+        },
+      ],
+    }));
   }
 
   //handle form submission
@@ -68,13 +82,14 @@ export default function Home() {
           message: question,
         },
       ],
+      pending: '',
     }));
-
     setLoading(true);
     setQuery('');
+    const ctrl = new AbortController();
 
     try {
-      const response = await fetch('/api/chat', {
+      fetchEventSource('/api/chat', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -83,28 +98,31 @@ export default function Home() {
           question,
           history,
         }),
+        signal: ctrl.signal,
+        onmessage: (event) => {
+          if (event.data === '[DONE]') {
+            setMessageState((state) => ({
+              history: [...state.history, [question, state.pending ?? '']],
+              messages: [
+                ...state.messages,
+                {
+                  type: 'apiMessage',
+                  message: state.pending ?? '',
+                },
+              ],
+              pending: undefined,
+            }));
+            setLoading(false);
+            ctrl.abort();
+          } else {
+            const data = JSON.parse(event.data);
+            setMessageState((state) => ({
+              ...state,
+              pending: (state.pending ?? '') + data.data,
+            }));
+          }
+        },
       });
-      const data = await response.json();
-      console.log('data', data);
-
-      if (data.error) {
-        setError(data.error);
-      } else {
-        setMessageState((state) => ({
-          ...state,
-          messages: [
-            ...state.messages,
-            {
-              type: 'apiMessage',
-              message: data.text,
-              sourceDocs: data.sourceDocuments,
-            },
-          ],
-          history: [...state.history, [question, data.text]],
-        }));
-      }
-      console.log('messageState', messageState);
-      setLoading(false);
     } catch (error) {
       setLoading(false);
       setError('An error occurred while fetching the data. Please try again.');
@@ -121,6 +139,13 @@ export default function Home() {
     }
   };
 
+  const chatMessages = useMemo(() => {
+    return [
+      ...messages,
+      ...(pending ? [{ type: 'apiMessage', message: pending }] : []),
+    ];
+  }, [messages, pending]);
+
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
@@ -135,7 +160,7 @@ export default function Home() {
           <main className="">
             <div className="w-[80vw] h-[80vh] border">
               <div ref={messageListRef} className={styles.messagelist}>
-                {messages.map((message, index) => {
+                {chatMessages.map((message, index) => {
                   let icon;
                   let className;
                   if (message.type === 'apiMessage') {
@@ -212,6 +237,16 @@ export default function Home() {
                     </>
                   );
                 })}
+                {messages.length > 1 && (
+                  <div className="flex justify-center items-center py-8">
+                    <button
+                      className="px-10 py-2 bg-red-400 text-white rounded opacity-20 hover:opacity-100 transition-all"
+                      onClick={handleClearHistory}
+                    >
+                      clear
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
             <div className="mt-5">

@@ -18,10 +18,18 @@ If the question is not related to the context, politely respond that you are tun
 Question: {question}
 Helpful answer in markdown:`;
 
-export const makeChain = (vectorstore: Chroma) => {
+export const makeChain = (vectorstore: Chroma, cb: (token: string) => any) => {
   const model = new OpenAI({
     temperature: 0.5, // increase temepreature to get more creative answers
     modelName: 'gpt-3.5-turbo', //change this to gpt-4 if you have access
+    streaming: true,
+    callbacks: [
+      {
+        handleLLMNewToken(token: string) {
+          cb(token);
+        },
+      },
+    ],
   });
 
   const chain = ConversationalRetrievalQAChain.fromLLM(

@@ -17,8 +17,8 @@ dependencies:
     specifier: ^16.0.3
     version: 16.0.3
   langchain:
-    specifier: 0.0.55
-    version: 0.0.55(chromadb@1.4.1)
+    specifier: 0.0.67
+    version: 0.0.67(chromadb@1.4.1)(pdf-parse@1.1.1)
   lucide-react:
     specifier: ^0.125.0
     version: 0.125.0(react@18.2.0)
@@ -876,6 +876,11 @@ packages:
     dependencies:
       color-convert: 2.0.1
     dev: true
+
+  /ansi-styles@5.2.0:
+    resolution: {integrity: sha512-Cxwpt2SfTzTtXcfOlzGEee8O+c+MmUgGrNiBcXnuWxuFJHe6a5Hz7qwhwe5OgaSYI0IJvkLqWX1ASG+cJOkEiA==}
+    engines: {node: '>=10'}
+    dev: false
 
   /anymatch@3.1.3:
     resolution: {integrity: sha512-KMReFUr0B4t+D+OBkjR3KYqvocp2XaSzO55UcB6mgQMd3KbcE+mWTyvVV7D/zsdEbNnV6acZUutkiHQXvTr1Rw==}
@@ -2297,18 +2302,24 @@ packages:
     engines: {node: '>=6'}
     dev: false
 
-  /langchain@0.0.55(chromadb@1.4.1):
-    resolution: {integrity: sha512-ScL53LvBm2X0rIO1fdMLEoCFYESLVTmY0d71qX7qDrB1y8Y8nCtCA1ZiUNYl4WDQeEvKcvB39qWmAJ2XcB8tqQ==}
+  /langchain@0.0.67(chromadb@1.4.1)(pdf-parse@1.1.1):
+    resolution: {integrity: sha512-OO9NEoVYJyNTmrA76rgisA48LkA6Si7qVAS+1hakzKwf/Hj7GhvDe/NpVaWmOFtkAHusJHSbCplbeJKWIgFR2g==}
     engines: {node: '>=18'}
     peerDependencies:
+      '@aws-sdk/client-lambda': ^3.310.0
       '@aws-sdk/client-s3': ^3.310.0
       '@getmetal/metal-sdk': '*'
       '@huggingface/inference': ^1.5.1
+      '@opensearch-project/opensearch': '*'
       '@pinecone-database/pinecone': '*'
       '@supabase/supabase-js': ^2.10.0
+      '@tensorflow-models/universal-sentence-encoder': '*'
+      '@tensorflow/tfjs-converter': '*'
+      '@tensorflow/tfjs-core': '*'
       '@zilliz/milvus2-sdk-node': ^2.2.0
+      axios: '*'
       cheerio: ^1.0.0-rc.12
-      chromadb: ^1.3.0
+      chromadb: ^1.4.0
       cohere-ai: ^5.0.2
       d3-dsv: ^2.0.0
       epub2: ^3.0.1
@@ -2316,25 +2327,38 @@ packages:
       html-to-text: ^9.0.5
       mammoth: '*'
       mongodb: ^5.2.0
-      pdfjs-dist: ^3.4.120
+      pdf-parse: 1.1.1
       playwright: ^1.32.1
       puppeteer: ^19.7.2
       redis: ^4.6.4
       replicate: ^0.9.0
       srt-parser-2: ^1.2.2
       typeorm: ^0.3.12
+      weaviate-ts-client: ^1.0.0
     peerDependenciesMeta:
+      '@aws-sdk/client-lambda':
+        optional: true
       '@aws-sdk/client-s3':
         optional: true
       '@getmetal/metal-sdk':
         optional: true
       '@huggingface/inference':
         optional: true
+      '@opensearch-project/opensearch':
+        optional: true
       '@pinecone-database/pinecone':
         optional: true
       '@supabase/supabase-js':
         optional: true
+      '@tensorflow-models/universal-sentence-encoder':
+        optional: true
+      '@tensorflow/tfjs-converter':
+        optional: true
+      '@tensorflow/tfjs-core':
+        optional: true
       '@zilliz/milvus2-sdk-node':
+        optional: true
+      axios:
         optional: true
       cheerio:
         optional: true
@@ -2354,7 +2378,7 @@ packages:
         optional: true
       mongodb:
         optional: true
-      pdfjs-dist:
+      pdf-parse:
         optional: true
       playwright:
         optional: true
@@ -2368,9 +2392,12 @@ packages:
         optional: true
       typeorm:
         optional: true
+      weaviate-ts-client:
+        optional: true
     dependencies:
       '@anthropic-ai/sdk': 0.4.3
       '@dqbd/tiktoken': 1.0.7
+      ansi-styles: 5.2.0
       binary-extensions: 2.2.0
       browser-or-node: 2.1.1
       chromadb: 1.4.1
@@ -2382,9 +2409,11 @@ packages:
       openai: 3.2.1
       p-queue: 6.6.2
       p-retry: 4.6.2
+      pdf-parse: 1.1.1
       uuid: 9.0.0
       yaml: 2.2.2
       zod: 3.21.4
+      zod-to-json-schema: 3.21.0(zod@3.21.4)
     transitivePeerDependencies:
       - debug
       - encoding
@@ -3815,6 +3844,14 @@ packages:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
     dev: true
+
+  /zod-to-json-schema@3.21.0(zod@3.21.4):
+    resolution: {integrity: sha512-+KyFCzqKwE6CxMSZxEUBaGmdXzB09BoFebO+xef/ISE4cTfReQlyThYbS8aqd3uWkdt9fz5BGHsY0CbY+Ra9oA==}
+    peerDependencies:
+      zod: ^3.21.4
+    dependencies:
+      zod: 3.21.4
+    dev: false
 
   /zod@3.21.4:
     resolution: {integrity: sha512-m46AKbrzKVzOzs/DZgVnG5H55N1sv1M8qZU3A8RIKbs3mrACDNeIOeilDymVb2HdmP8uwshOCF4uJ8uM9rCqJw==}
