@@ -4,16 +4,19 @@ import { Chroma } from 'langchain/vectorstores/chroma';
 import { CustomPDFLoader } from '@/utils/customPDFLoader';
 import { COLLECTION_NAME } from '@/config/chroma';
 import { DirectoryLoader } from 'langchain/document_loaders/fs/directory';
-
-/* Name of directory to retrieve your files from */
-const filePath = 'docs';
+import { TextLoader } from 'langchain/document_loaders/fs/text';
 
 export const run = async () => {
   try {
     /*load raw docs from the all files in the directory */
-    const directoryLoader = new DirectoryLoader(filePath, {
-      '.pdf': (path) => new CustomPDFLoader(path),
-    });
+    const directoryLoader = new DirectoryLoader(
+      'docs',
+      {
+        '.pdf': (path) => new CustomPDFLoader(path),
+        '.txt': (path) => new TextLoader(path),
+      },
+      true,
+    );
 
     // const loader = new PDFLoader(filePath);
     const rawDocs = await directoryLoader.load();
@@ -31,9 +34,9 @@ export const run = async () => {
     /*create and store the embeddings in the vectorStore*/
     const embeddings = new OpenAIEmbeddings();
 
-    let chroma = new Chroma(embeddings, {collectionName: COLLECTION_NAME})
-    await chroma.index?.reset()
-    
+    let chroma = new Chroma(embeddings, { collectionName: COLLECTION_NAME });
+    await chroma.index?.reset();
+
     //embed the PDF documents
 
     // Ingest documents in batches of 100

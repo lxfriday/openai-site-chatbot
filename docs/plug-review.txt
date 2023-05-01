@@ -1,0 +1,36 @@
+Plugin review process
+We are in the early stages of building the plugin store, this page outlines the basic overview of how we are thinking about the plugin review process, and what early phases of the plugin review process will look like.
+
+The plugin review process will change significantly over time. We are open to feedback about how to improve the process for those building plugins.
+What we are looking for in a plugin
+The purpose of the review process is to ensure that plugins on ChatGPT are safe, provide useful functionality, and provide a high-quality user experience. Long-term, we expect it to be routine to go through the review process as we formalize it.
+
+In the immediate term, we are prioritizing plugins which deliver new, magical experiences for users, which would not have been possible without the unique capabilities of large language models.
+
+So far, some categories of plugins that have been the most magical are:
+
+Retrieval over user-specific or otherwise hard-to-search knowledge sources (searching over Slack, searching a user’s docs or another proprietary database).
+Plugins that synergize well with other plugins (asking the model to plan a weekend for you, and having the model blend usage of flight/hotel search with dinner reservation search).
+Plugins that give the model computational abilities (Wolfram, OpenAI Code Interpreter, etc).
+Plugins that introduce new ways of using ChatGPT, like games.
+Plugin states
+When developing a plugin, the plugin can be in one of several statuses, indicating where it is along the review process. Right now, there are only a couple of plugin statuses, and the review process is largely manual. We expect this to change as the plugins system evolves.
+
+STATUS	DESCRIPTION	DEVELOPER ACCESS	USERS ACCESS
+In development	The default status that a plugin starts out in.	15	0
+Approved	OpenAI has reviewed the plugin, and has determined that the plugin is approved for use by a general audience of users.	Unlimited	Unlimited
+Banned	OpenAI has reviewed the plugin, and has determined that the plugin should be banned.	0	0
+Note that if you submit a plugin and it is rejected because it fails to meet the requirements, it would still be in the "In development" state.
+
+Types of users
+Right now there are three categories of users that we talk about when it comes to plugins access. We also expect this to change as the plugins system evolves.
+
+USER TYPE	DESCRIPTION
+Plugin users	ChatGPT users who have been given access to plugins that have gone through our review process and have been approved for general use. These users must be ChatGPT Plus subscribers. Only a limited number of users have access to plugins today, but we hope to roll out to all ChatGPT Plus users over time.
+Plugin developers	ChatGPT users who have been given the ability to develop, use, test, etc., plugins that are in development. There are a small number of these users as of today. We expect this number to grow very large, and we expect there to be an explicit process (rather than a waitlist) for opting-into becoming a ChatGPT plugin developer, similar to other app stores.
+Normal ChatGPT users	Right now, normal ChatGPT users (including Plus subscribers) don’t have plugin access. We expect all ChatGPT Plus subscribers to have access eventually, but as of today access has only been granted to a small number of users.
+Submit a plugin for review
+You can expect to hear back about a plugin you submit for review 14 days after the deadline for the batch. We plan to review plugins on a rolling basis in the future.
+We are currently reviewing new plugins in batches while we scale up our processes. Due to the manual nature of the review process and our limited rollout, please be patient while we review your plugin. You can view the requirements for a plugin submission using the plugin submission form.
+
+If your plugin is not selected in this round, we encourage you to get feedback from users about what can be done to improve your plugin.
